@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Persona;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+
+class PersonaController extends Controller
+{
+    public function index()
+    {
+        $persona = Persona::select('id', 'nombre', 'apellido', 'telefono')
+                    ->orderBy('id', 'asc')
+                    ->get(); 
+        return view('personas', compact('persona'));
+    }   
+
+    public function actualizarPersona(Request $request, $id)
+    {
+
+        PersonaController::find($id)->update([
+            "nombre" => $request->nombre
+        ]);
+
+        PersonaController::find($id)->update([
+            "apellido" => $request->apellido
+        ]);
+
+        PersonaController::find($id)->update([
+            "telefono" => $request->telefono
+        ]);
+
+        return back()->with('exito', 'Estado actualizado!');
+    }
+}
